@@ -1,0 +1,169 @@
+{
+  "schema_version": "0.1",
+  "currency": "CNY",
+  "events": [
+    {
+      "id": "evt_001",
+      "source": {
+        "channel": "test_sample",
+        "raw_text": "今天午饭 38，微信付的",
+        "received_at": "2026-05-06T12:30:00+08:00"
+      },
+      "type": "expense",
+      "status": "confirmed",
+      "occurred_at": "2026-05-06",
+      "due_at": null,
+      "amount": 38,
+      "currency": "CNY",
+      "direction": "outflow",
+      "account": "微信支付",
+      "category": "餐饮",
+      "confidence": {
+        "overall": 0.92,
+        "fields": {
+          "amount": 0.99,
+          "account": 0.85,
+          "category": 0.85
+        }
+      },
+      "review": {
+        "required": false,
+        "reasons": []
+      },
+      "tags": [],
+      "notes": ""
+    },
+    {
+      "id": "evt_002",
+      "source": {
+        "channel": "test_sample",
+        "raw_text": "下周三还信用卡 3200，招商卡",
+        "received_at": "2026-05-06T20:00:00+08:00"
+      },
+      "type": "bill_due",
+      "status": "needs_review",
+      "occurred_at": null,
+      "due_at": "2026-05-13",
+      "amount": 3200,
+      "currency": "CNY",
+      "direction": "outflow",
+      "account": "招商卡",
+      "category": "信用卡还款",
+      "confidence": {
+        "overall": 0.78,
+        "fields": {
+          "amount": 0.99,
+          "due_at": 0.8,
+          "account": 0.7,
+          "category": 0.7
+        }
+      },
+      "review": {
+        "required": true,
+        "reasons": ["repayment_ambiguous", "low_confidence"]
+      },
+      "tags": [],
+      "notes": ""
+    },
+    {
+      "id": "evt_003",
+      "source": {
+        "channel": "test_sample",
+        "raw_text": "每月 5 号房租 2500",
+        "received_at": "2026-05-06T20:05:00+08:00"
+      },
+      "type": "fixed_cost",
+      "status": "confirmed",
+      "occurred_at": null,
+      "due_at": "2026-06-05",
+      "amount": 2500,
+      "currency": "CNY",
+      "direction": "outflow",
+      "account": null,
+      "category": "房租",
+      "confidence": {
+        "overall": 0.88,
+        "fields": {
+          "amount": 0.99,
+          "due_at": 0.8,
+          "category": 0.9
+        }
+      },
+      "review": {
+        "required": false,
+        "reasons": []
+      },
+      "tags": ["monthly"],
+      "notes": ""
+    }
+  ],
+  "profile": {
+    "payday": null,
+    "monthly_income": null,
+    "latest_balances": [],
+    "known_fixed_costs": [
+      {
+        "id": "evt_003",
+        "amount": 2500,
+        "category": "房租",
+        "due_at": "2026-06-05"
+      }
+    ],
+    "known_repayments": [
+      {
+        "id": "evt_002",
+        "amount": 3200,
+        "category": "信用卡还款",
+        "due_at": "2026-05-13"
+      }
+    ],
+    "known_subscriptions": [],
+    "known_budgets": [],
+    "behavior_patterns": [],
+    "completeness": {
+      "completed": 2,
+      "total": 6,
+      "missing": [
+        "payday",
+        "monthly_income",
+        "latest_balance",
+        "budgets"
+      ]
+    },
+    "updated_at": "2026-05-06T20:05:00+08:00"
+  },
+  "entities": {
+    "accounts": [
+      {
+        "id": "acc_wechat",
+        "name": "微信支付",
+        "created_from": "natural_language",
+        "status": "active"
+      },
+      {
+        "id": "acc_cmb",
+        "name": "招商卡",
+        "created_from": "natural_language",
+        "status": "needs_review"
+      }
+    ],
+    "categories": [
+      {
+        "id": "cat_food",
+        "name": "餐饮",
+        "created_from": "system",
+        "status": "active"
+      },
+      {
+        "id": "cat_rent",
+        "name": "房租",
+        "created_from": "natural_language",
+        "status": "active"
+      }
+    ]
+  },
+  "heartbeat": {
+    "pending_review_ids": ["evt_002"],
+    "scheduled_item_ids": ["evt_002", "evt_003"]
+  }
+}

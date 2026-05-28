@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1",
+  "currency": "CNY",
+  "events": [],
+  "profile": {
+    "payday": null,
+    "monthly_income": null,
+    "latest_balances": [],
+    "known_fixed_costs": [],
+    "known_repayments": [],
+    "known_subscriptions": [],
+    "known_budgets": [],
+    "behavior_patterns": [],
+    "completeness": {
+      "completed": 0,
+      "total": 6,
+      "missing": [
+        "payday",
+        "monthly_income",
+        "latest_balance",
+        "fixed_costs",
+        "repayments_or_subscriptions",
+        "budgets"
+      ]
+    },
+    "updated_at": null
+  },
+  "entities": {
+    "accounts": [],
+    "categories": []
+  },
+  "heartbeat": {
+    "pending_review_ids": [],
+    "scheduled_item_ids": []
+  }
+}

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>银砚本地复盘</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">FH</span>
+        <div>
+          <p>本地 JSON 复盘器</p>
+          <h1>银砚</h1>
+        </div>
+      </div>
+
+      <div class="import-strip" id="dropzone">
+        <div class="import-copy">
+          <strong>导入账本</strong>
+          <span id="fileStatus">未载入账本</span>
+        </div>
+        <div class="import-actions">
+          <label class="file-button">
+            选择 JSON
+            <input id="ledgerInput" type="file" accept=".json,application/json">
+          </label>
+          <button id="openFileButton" type="button">授权文件</button>
+          <button id="openFolderButton" type="button">授权文件夹</button>
+          <button id="saveFileButton" type="button">保存回文件</button>
+          <button id="sampleButton" type="button">查看示例</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="notice" id="privacyNotice">
+        账本只在浏览器本地解析，不上传服务器。当前页面只展示已记录数据，不提供财务、税务或投资建议。
+      </section>
+
+      <section class="overview">
+        <div class="overview-copy">
+          <p class="eyebrow">仅基于已记录数据</p>
+          <h2>按时间段回顾现金流，再处理会影响复盘的记录。</h2>
+          <p class="summary">这个页面服务于内测复盘：快速核对收入、支出、预算、未来支出、同比、环比、待复核和账本健康，不要求用户一开始补齐所有账户。</p>
+        </div>
+        <div class="overview-status">
+          <div>
+            <span>当前时间段</span>
+            <strong id="activeMonth">等待账本</strong>
+          </div>
+          <div>
+            <span>复盘状态</span>
+            <strong id="cashflowStatus">本地视图</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="现金流概览">
+        <article class="metric-card">
+          <span>已知余额</span>
+          <strong id="balance">-</strong>
+          <small>来自最近余额快照</small>
+        </article>
+        <article class="metric-card">
+          <span>时间段收入</span>
+          <strong id="monthIncome">-</strong>
+          <small>按已发生收入统计</small>
+        </article>
+        <article class="metric-card">
+          <span>时间段支出</span>
+          <strong id="monthSpend">-</strong>
+          <small>不含未来账单</small>
+        </article>
+        <article class="metric-card metric-card-strong">
+          <span>时间段结余</span>
+          <strong id="monthNet">-</strong>
+          <small>收入减已发生支出</small>
+        </article>
+        <article class="metric-card">
+          <span>未来 7 天</span>
+          <strong id="upcoming">-</strong>
+          <small>确定支出与提醒</small>
+        </article>
+        <article class="metric-card">
+          <span>待复核</span>
+          <strong id="pendingTotal">-</strong>
+          <small id="pendingCount">0 条记录</small>
+        </article>
+      </section>
+
+      <section class="comparison-grid" aria-label="同比和环比">
+        <article class="compare-card">
+          <span>支出环比</span>
+          <strong id="spendPreviousCompare">-</strong>
+          <small id="spendPreviousDetail">对比上一等长周期</small>
+        </article>
+        <article class="compare-card">
+          <span>支出同比</span>
+          <strong id="spendYearCompare">-</strong>
+          <small id="spendYearDetail">对比去年同期</small>
+        </article>
+        <article class="compare-card">
+          <span>收入环比</span>
+          <strong id="incomePreviousCompare">-</strong>
+          <small id="incomePreviousDetail">对比上一等长周期</small>
+        </article>
+        <article class="compare-card">
+          <span>收入同比</span>
+          <strong id="incomeYearCompare">-</strong>
+          <small id="incomeYearDetail">对比去年同期</small>
+        </article>
+      </section>
+
+      <section class="workspace-grid">
+        <article class="panel panel-wide">
+          <div class="panel-title">
+            <div>
+              <h2>时间段现金流</h2>
+              <p>收入和支出按发生日累计，坏日期和负数金额不进入图表。</p>
+            </div>
+            <span id="recordTotal">0 条记录</span>
+          </div>
+          <div id="trendChart" class="chart-empty">导入 ledger.json 后显示趋势</div>
+        </article>
+
+        <article class="panel panel-wide period-stream-panel">
+          <div class="panel-title">
+            <div>
+              <h2>复盘时间段与事件流</h2>
+              <p>先选择复盘范围，再按时间看收入、支出、账单和待复核记录。</p>
+            </div>
+            <span id="periodSummary">默认查看记录最多的月份</span>
+          </div>
+          <div class="period-stream-layout">
+            <div class="period-controls">
+              <select id="periodPreset" aria-label="时间段筛选">
+                <option value="active_month">记录最多月份</option>
+                <option value="last_30_days">最近 30 天</option>
+                <option value="current_year">今年</option>
+                <option value="custom">自定义</option>
+              </select>
+              <input id="periodStart" type="date" aria-label="开始日期">
+              <input id="periodEnd" type="date" aria-label="结束日期">
+              <button id="applyPeriodButton" type="button">应用</button>
+            </div>
+            <div id="eventStream" class="event-stream-empty">导入 ledger.json 后显示当前时间段事件流</div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>分类支出</h2>
+              <p>按当前时间段已发生支出汇总。</p>
+            </div>
+          </div>
+          <div id="categoryBars" class="bars empty">暂无数据</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>玫瑰图</h2>
+              <p>用更强视觉查看消费结构，金额仍以旁边数字为准。</p>
+            </div>
+          </div>
+          <div id="roseChart" class="rose-empty">暂无数据</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>复核优先级</h2>
+              <p>点击记录后，整理台只显示对应待复核项。</p>
+            </div>
+          </div>
+          <ul id="reviewImpactList" class="record-list compact"></ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>时间段洞察</h2>
+              <p>给内测用户看的短结论。</p>
+            </div>
+          </div>
+          <ul id="insightList" class="insight-list"></ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>预算进度</h2>
+              <p>接近上限时标记风险。</p>
+            </div>
+          </div>
+          <div id="budgetBars" class="bars empty">暂无预算</div>
+        </article>
+
+        <article class="panel panel-wide">
+          <div class="panel-title">
+            <div>
+              <h2>分类支出明细</h2>
+              <p>金额、占比、次数、平均单笔、环比和同比。</p>
+            </div>
+          </div>
+          <div id="categoryDetailTable" class="table-wrap"></div>
+        </article>
+
+        <article class="panel panel-wide">
+          <div class="panel-title">
+            <div>
+              <h2>日历热力图</h2>
+              <p>查看每天消费强度，适合发现集中消费和漏记日期。</p>
+            </div>
+          </div>
+          <div id="calendarHeatmap" class="heatmap-empty">暂无数据</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>高频低值消费表</h2>
+              <p>按小额消费聚合，观察“小钱漏水”。</p>
+            </div>
+          </div>
+          <div id="lowValueTable" class="table-wrap compact-table"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>高频低值气泡图</h2>
+              <p>横轴次数、纵轴合计、气泡大小代表均价。</p>
+            </div>
+          </div>
+          <div id="lowValueBubble" class="bubble-empty">暂无数据</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>待复核明细</h2>
+              <p>保留原始文本，方便回到 IM 修正。</p>
+            </div>
+          </div>
+          <ul id="pendingList" class="record-list"></ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>未来支出</h2>
+              <p>未来 7 天，过期事项不计入。</p>
+            </div>
+          </div>
+          <ul id="upcomingList" class="record-list"></ul>
+        </article>
+
+        <article class="panel panel-wide">
+          <div class="panel-title">
+            <div>
+              <h2>固定支出 / 未来支出表</h2>
+              <p>汇总确定支出、账单和固定成本，辅助判断近期现金流压力。</p>
+            </div>
+          </div>
+          <div id="futureFixedTable" class="table-wrap"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>规则建议</h2>
+              <p>根据重复商户、分类和账户，提示可沉淀的本地整理规则。</p>
+            </div>
+          </div>
+          <ul id="ruleSuggestionList" class="record-list"></ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <h2>Firefly III 映射</h2>
+              <p>预览当前账本可映射为 withdrawal / deposit / transfer 的记录数量。</p>
+            </div>
+          </div>
+          <ul id="fireflyMappingList" class="record-list compact"></ul>
+        </article>
+
+        <article class="panel health-panel" aria-label="账本健康检查">
+          <div class="panel-title">
+            <div>
+              <h2>账本健康检查</h2>
+              <p id="healthSummary">导入 ledger.json 后检查字段、金额、日期和引用关系。</p>
+            </div>
+            <span id="healthBadge" class="health-badge neutral">等待账本</span>
+          </div>
+          <div class="health-stats" aria-label="健康检查统计">
+            <div><b id="healthErrors">0</b><span>需要修正</span></div>
+            <div><b id="healthWarnings">0</b><span>建议复核</span></div>
+            <div><b id="healthInfos">0</b><span>整理提示</span></div>
+          </div>
+          <ul id="healthIssues" class="health-list">
+            <li class="muted">暂无检查结果</li>
+          </ul>
+        </article>
+
+        <article class="panel panel-wide records-panel" id="records-panel">
+          <div class="panel-title">
+            <div>
+              <h2>记录整理台</h2>
+              <p>在浏览器本地批量归类、确认复核，然后导出修改后的 JSON。</p>
+            </div>
+            <span id="selectedCount">已选 0 条</span>
+          </div>
+          <div class="table-tools">
+            <input id="recordSearch" type="search" placeholder="搜索原始记录、分类或账户">
+            <select id="typeFilter" aria-label="类型筛选">
+              <option value="">全部类型</option>
+              <option value="expense">支出</option>
+              <option value="income">收入</option>
+              <option value="bill_due">账单</option>
+              <option value="fixed_cost">固定支出</option>
+              <option value="goal">预算</option>
+              <option value="account_balance">余额</option>
+            </select>
+            <select id="statusFilter" aria-label="状态筛选">
+              <option value="">全部状态</option>
+              <option value="needs_review">待复核</option>
+              <option value="confirmed">已确认</option>
+            </select>
+          </div>
+          <div class="organizer-tools" aria-label="批量整理操作">
+            <label class="checkbox-tool">
+              <input id="organizerOnly" type="checkbox" checked>
+              只看待整理
+            </label>
+            <select id="bulkCategory" aria-label="批量分类">
+              <option value="">选择分类</option>
+              <option value="餐饮">餐饮</option>
+              <option value="交通">交通</option>
+              <option value="日用品">日用品</option>
+              <option value="生活缴费">生活缴费</option>
+              <option value="娱乐">娱乐</option>
+              <option value="房租">房租</option>
+              <option value="通信">通信</option>
+              <option value="医疗">医疗</option>
+              <option value="收入">收入</option>
+              <option value="还款">还款</option>
+            </select>
+            <input id="customCategory" type="text" placeholder="或输入新分类">
+            <button id="bulkCategoryButton" type="button">批量改分类</button>
+            <button id="bulkConfirmButton" type="button">批量确认</button>
+            <button id="saveEditButton" type="button">保存修改</button>
+            <button id="exportButton" type="button">导出 JSON</button>
+          </div>
+          <p id="organizerStatus" class="organizer-status">导入账本后可整理待复核和未分类记录。</p>
+          <div id="recentTable" class="table-wrap"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

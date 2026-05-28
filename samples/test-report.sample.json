@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.1",
+  "test_id": "anon_xxxx",
+  "period": {
+    "start": "2026-05-06",
+    "end": "2026-05-13"
+  },
+  "usage": {
+    "days_used": 6,
+    "records_created": 28,
+    "heartbeat_sent": 7,
+    "heartbeat_replied": 5,
+    "weekly_report_generated": true
+  },
+  "records_by_type": {
+    "expense": 18,
+    "income": 2,
+    "fixed_cost": 3,
+    "bill_due": 3,
+    "transfer_or_ambiguous": 2
+  },
+  "quality": {
+    "review_required": 9,
+    "review_completed": 7,
+    "parser_failures": 4,
+    "top_review_reasons": [
+      "account_missing",
+      "transfer_ambiguous",
+      "date_missing"
+    ]
+  },
+  "feedback": {
+    "rating": 4,
+    "continue_intent": true,
+    "most_useful": "每晚提醒我确认漏记和下周还款。",
+    "most_annoying": "账户不确定时追问有点频繁。",
+    "next_improvement": "希望能把固定支出自动带到下个月。"
+  }
+}

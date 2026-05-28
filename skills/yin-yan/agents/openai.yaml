@@ -1,0 +1,4 @@
+interface:
+  display_name: "银砚"
+  short_description: "本地优先的自然语言记账 skill，支持两级类目、预算、每日笔数、低打扰审查、heartbeat 摘要和浏览器本地复盘。"
+  default_prompt: "Use $yin-yan to record personal finance events, classify them with two-level categories, track budgets and daily count limits, run heartbeat summaries, and review local ledger data."

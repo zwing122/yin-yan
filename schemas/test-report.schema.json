@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yin-yan.local/schemas/test-report.schema.json",
+  "title": "银砚 Anonymous Test Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "test_id",
+    "period",
+    "usage",
+    "records_by_type",
+    "quality",
+    "feedback"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "test_id": {
+      "type": "string"
+    },
+    "period": {
+      "type": "object",
+      "required": ["start", "end"],
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "required": [
+        "days_used",
+        "records_created",
+        "heartbeat_sent",
+        "heartbeat_replied",
+        "weekly_report_generated"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "days_used": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "records_created": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "heartbeat_sent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "heartbeat_replied": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "weekly_report_generated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "records_by_type": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "review_required",
+        "review_completed",
+        "parser_failures",
+        "top_review_reasons"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "review_required": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "review_completed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parser_failures": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "top_review_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "feedback": {
+      "type": "object",
+      "required": [
+        "rating",
+        "continue_intent",
+        "most_useful",
+        "most_annoying",
+        "next_improvement"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rating": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 5
+        },
+        "continue_intent": {
+          "type": ["boolean", "null"]
+        },
+        "most_useful": {
+          "type": "string"
+        },
+        "most_annoying": {
+          "type": "string"
+        },
+        "next_improvement": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

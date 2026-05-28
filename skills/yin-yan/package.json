@@ -1,0 +1,15 @@
+{
+  "name": "yin-yan-skill",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first 银砚 personal finance skill for OpenClaw/Hermes/QClaw.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "help": "node scripts/run-command.mjs --text 帮助",
+    "verify:local": "node scripts/run-command.mjs --text \"今天午饭 38，微信付的\" --ledger ./.tmp-verify-ledger.json"
+  },
+  "dependencies": {}
+}

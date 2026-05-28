@@ -1,0 +1,540 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yin-yan.local/schemas/ledger.schema.json",
+  "title": "银砚 Ledger",
+  "type": "object",
+  "required": ["schema_version", "currency", "events", "profile", "entities", "heartbeat"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "currency": {
+      "type": "string",
+      "default": "CNY"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    },
+    "profile": {
+      "$ref": "#/$defs/profile"
+    },
+    "entities": {
+      "type": "object",
+      "required": ["accounts", "categories"],
+      "additionalProperties": false,
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity"
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity"
+          }
+        }
+      }
+    },
+    "heartbeat": {
+      "type": "object",
+      "required": ["pending_review_ids", "scheduled_item_ids"],
+      "additionalProperties": false,
+      "properties": {
+        "pending_review_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scheduled_item_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "required": [
+        "payday",
+        "monthly_income",
+        "latest_balances",
+        "known_fixed_costs",
+        "known_repayments",
+        "known_subscriptions",
+        "known_budgets",
+        "behavior_patterns",
+        "completeness",
+        "updated_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "payday": {
+          "type": ["object", "null"],
+          "additionalProperties": true
+        },
+        "monthly_income": {
+          "type": ["object", "null"],
+          "additionalProperties": true
+        },
+        "latest_balances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "known_fixed_costs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "known_repayments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "known_subscriptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "known_budgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "behavior_patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "label", "detail"],
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "completeness": {
+          "type": "object",
+          "required": ["completed", "total", "missing"],
+          "additionalProperties": false,
+          "properties": {
+            "completed": {
+              "type": "number",
+              "minimum": 0
+            },
+            "total": {
+              "type": "number",
+              "minimum": 0
+            },
+            "missing": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "updated_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "type",
+        "status",
+        "occurred_at",
+        "due_at",
+        "amount",
+        "currency",
+        "direction",
+        "account",
+        "category",
+        "confidence",
+        "review",
+        "tags",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "object",
+          "required": ["channel", "raw_text", "received_at"],
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "type": "string",
+              "enum": ["chat", "manual", "import", "test_sample"]
+            },
+            "raw_text": {
+              "type": "string"
+            },
+            "received_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "expense",
+            "income",
+            "fixed_cost",
+            "subscription",
+            "transfer",
+            "refund",
+            "reimbursement",
+            "loan",
+            "bill_due",
+            "goal",
+            "account_balance",
+            "unknown"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "needs_review", "confirmed", "ignored"]
+        },
+        "occurred_at": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "due_at": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "amount": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "default": "CNY"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["inflow", "outflow", "internal", "none", "unknown"]
+        },
+        "account": {
+          "type": ["string", "null"]
+        },
+        "category": {
+          "type": ["string", "null"]
+        },
+        "category_l1": {
+          "type": ["string", "null"]
+        },
+        "category_l2": {
+          "type": ["string", "null"]
+        },
+        "budget_rule": {
+          "type": ["object", "null"],
+          "required": ["scope", "category_l1", "category_l2", "limit_type", "period", "count", "amount"],
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": ["category_l1", "category_l2"]
+            },
+            "category_l1": {
+              "type": ["string", "null"]
+            },
+            "category_l2": {
+              "type": ["string", "null"]
+            },
+            "limit_type": {
+              "type": "string",
+              "enum": ["amount_month", "count_per_day"]
+            },
+            "period": {
+              "type": "string",
+              "enum": ["month", "day"]
+            },
+            "count": {
+              "type": ["number", "null"],
+              "minimum": 0
+            },
+            "amount": {
+              "type": ["number", "null"],
+              "minimum": 0
+            }
+          }
+        },
+        "transaction": {
+          "type": ["object", "null"],
+          "required": [
+            "kind",
+            "source_account",
+            "destination_account",
+            "counterparty",
+            "is_internal_transfer",
+            "firefly_iii"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["withdrawal", "deposit", "transfer", "bill", "budget", "balance", "unknown"]
+            },
+            "source_account": {
+              "type": ["string", "null"]
+            },
+            "destination_account": {
+              "type": ["string", "null"]
+            },
+            "counterparty": {
+              "type": ["string", "null"]
+            },
+            "is_internal_transfer": {
+              "type": "boolean"
+            },
+            "firefly_iii": {
+              "type": "object",
+              "required": ["type", "notes"],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": ["string", "null"],
+                  "enum": ["withdrawal", "deposit", "transfer", "opening_balance", null]
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "asset_tracking": {
+          "type": ["object", "null"],
+          "required": [
+            "candidate",
+            "status",
+            "item_name",
+            "reason_codes",
+            "confidence",
+            "expected_review_days",
+            "next_review_at",
+            "expected_use_days",
+            "mention_count",
+            "mention_logs",
+            "first_mentioned_at",
+            "last_mentioned_at",
+            "days_since_purchase",
+            "days_since_last_mention",
+            "state",
+            "review_status"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "candidate": {
+              "type": "boolean"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["needs_confirm", "tracking", "ignored", "ended"]
+            },
+            "item_name": {
+              "type": ["string", "null"]
+            },
+            "reason_codes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["large_amount", "trackable_category", "item_keyword"]
+              }
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "expected_review_days": {
+              "type": ["number", "null"],
+              "minimum": 0
+            },
+            "next_review_at": {
+              "type": ["string", "null"],
+              "format": "date"
+            },
+            "expected_use_days": {
+              "type": ["number", "null"],
+              "minimum": 0
+            },
+            "mention_count": {
+              "type": "number",
+              "minimum": 0
+            },
+            "mention_logs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["date", "raw_text", "days_since_purchase", "days_since_last_mention"],
+                "additionalProperties": false,
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "raw_text": {
+                    "type": "string"
+                  },
+                  "days_since_purchase": {
+                    "type": ["number", "null"],
+                    "minimum": 0
+                  },
+                  "days_since_last_mention": {
+                    "type": ["number", "null"],
+                    "minimum": 0
+                  }
+                }
+              }
+            },
+            "first_mentioned_at": {
+              "type": ["string", "null"],
+              "format": "date"
+            },
+            "last_mentioned_at": {
+              "type": ["string", "null"],
+              "format": "date"
+            },
+            "days_since_purchase": {
+              "type": ["number", "null"],
+              "minimum": 0
+            },
+            "days_since_last_mention": {
+              "type": ["number", "null"],
+              "minimum": 0
+            },
+            "state": {
+              "type": "string",
+              "enum": ["unknown", "using", "idle", "returned", "resold"]
+            },
+            "review_status": {
+              "type": "string",
+              "enum": ["pending", "done", "snoozed"]
+            }
+          }
+        },
+        "confidence": {
+          "type": "object",
+          "required": ["overall", "fields"],
+          "additionalProperties": false,
+          "properties": {
+            "overall": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "fields": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": ["required", "reasons"],
+          "additionalProperties": false,
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "amount_missing",
+                  "date_missing",
+                  "due_date_missing",
+                  "type_unknown",
+                  "account_missing",
+                  "category_missing",
+                  "transfer_ambiguous",
+                  "repayment_ambiguous",
+                  "recurrence_unclear",
+                  "possible_duplicate",
+                  "refund_ambiguous",
+                  "reimbursement_ambiguous",
+                  "loan_ambiguous",
+                  "low_confidence",
+                  "multiple_candidates"
+                ]
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "required": ["id", "name", "created_from", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "created_from": {
+          "type": "string",
+          "enum": ["natural_language", "manual", "import", "system"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "archived", "needs_review"]
+        }
+      }
+    }
+  }
+}

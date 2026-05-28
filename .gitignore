@@ -1,0 +1,17 @@
+data/
+**/data/
+logs/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.zip
+
+samples/*.generated.json
+samples/*.generated.txt
+
+# Internal draft / handoff material, not needed for the public skill repo.
+marketing-assets*/
+open-design/
+review-launch*/
