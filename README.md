@@ -54,7 +54,7 @@ https://github.com/zwing122/yin-yan
 | 感谢 | 介绍 |
 | --- | --- |
 | Cognint | B站创业指导、哲学 UP 主，在本项目策划期提供了丰富的理论指导和思想支持，在本项目后期为这个项目最后的收尾提供了有力的支持，[特此感谢](https://space.bilibili.com/28210233?spm_id_from=333.337.0.0)。 |
-| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.35，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
+| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.3，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
 
 ## 能做什么
 
