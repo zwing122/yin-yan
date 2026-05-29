@@ -10,6 +10,8 @@
 
 从 [Releases](https://github.com/zwing122/yin-yan/releases) 下载 `yin-yan-installer.zip`，解压后运行：
 
+执行前请先审查 `installer/setup-wizard.ps1` 的脚本内容，确认来源和操作范围符合预期。
+
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
 ```
@@ -33,7 +35,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
 https://github.com/zwing122/yin-yan
 
 请优先使用 GitHub Releases 里的 `yin-yan-installer.zip` 安装包。
-下载后解压，并运行安装向导：
+下载后解压，先审查 `installer/setup-wizard.ps1` 的脚本内容，确认来源和操作范围符合预期，再运行安装向导：
 
 powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
 
@@ -65,7 +67,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
 | 感谢 | 介绍 |
 | --- | --- |
 | Cognint | B站创业指导、哲学 UP 主，在本项目策划期提供了丰富的理论指导和思想支持，在本项目后期为这个项目最后的收尾提供了有力的支持，[特此感谢](https://space.bilibili.com/28210233?spm_id_from=333.337.0.0)。 |
-| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.35，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
 
 ## 能做什么
 
