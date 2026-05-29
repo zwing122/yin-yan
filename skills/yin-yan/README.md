@@ -140,4 +140,6 @@ npm run verify:local
 
 ## License
 
-当前 `SKILL.md` 标记为 `UNLICENSED`，`package.json` 标记为 `private: true`。公开发布前请补充明确许可证，并按发布策略更新元数据。
+银砚代码采用 Apache License 2.0 开源。
+
+网页复盘页包含 Apache ECharts，本地随包分发，ECharts 采用 Apache License 2.0。相关第三方声明见仓库根目录的 `web-review/THIRD_PARTY.md` 和 `review-launch-v3/THIRD_PARTY.md`。

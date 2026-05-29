@@ -99,4 +99,6 @@ node scripts/run-command.mjs --text "本周汇总"
 
 ## License
 
-当前暂未明确开源许可。源码可见但暂未开放开源许可。公开开源发布前需要补充 `LICENSE` 文件，并同步更新 package 元数据。
+银砚代码采用 [Apache License 2.0](./LICENSE) 开源。
+
+网页复盘页包含 Apache ECharts，本地随包分发，ECharts 采用 Apache License 2.0。相关第三方声明见 [web-review/THIRD_PARTY.md](./web-review/THIRD_PARTY.md) 和 [review-launch-v3/THIRD_PARTY.md](./review-launch-v3/THIRD_PARTY.md)。

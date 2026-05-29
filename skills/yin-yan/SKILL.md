@@ -1,7 +1,7 @@
 ---
 name: yin-yan
 description: 银砚 personal finance skill for OpenClaw/Hermes/QClaw. Use when the user records, reviews, queries, exports, or summarizes personal finance events in natural language, including expenses, income, transfers, repayments, refunds, reimbursements, fixed costs, subscriptions, future payments, balances, budget goals, daily count limits, heartbeat reminders, cashflow summaries, local ledger backup/restore, browser-local review, and anonymous 7-day test reports.
-license: UNLICENSED
+license: Apache-2.0
 metadata:
   version: "0.2.0"
   tags:

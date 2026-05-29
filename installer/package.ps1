@@ -23,10 +23,17 @@ New-Item -ItemType Directory -Force -Path $stageDir | Out-Null
 Copy-Item -LiteralPath (Join-Path $projectRoot "installer") -Destination $stageDir -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot "skills") -Destination $stageDir -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot "schemas") -Destination $stageDir -Recurse -Force
-Copy-Item -LiteralPath (Join-Path $projectRoot "web-review") -Destination $stageDir -Recurse -Force
+$webSource = Join-Path $projectRoot "review-launch-v3"
+if (-not (Test-Path $webSource)) {
+  $webSource = Join-Path $projectRoot "web-review"
+}
+$webTarget = Join-Path $stageDir "web-review"
+New-Item -ItemType Directory -Force -Path $webTarget | Out-Null
+Get-ChildItem -LiteralPath $webSource -Force | Copy-Item -Destination $webTarget -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot "USAGE.md") -Destination $stageDir -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot "PRODUCT_FORM.md") -Destination $stageDir -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot "HEARTBEAT.md") -Destination $stageDir -Force
+Copy-Item -LiteralPath (Join-Path $projectRoot "LICENSE") -Destination $stageDir -Force
 
 $dataDir = Join-Path $stageDir "skills\yin-yan\data"
 if (Test-Path $dataDir) {
