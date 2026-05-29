@@ -49,6 +49,13 @@ https://github.com/zwing122/yin-yan
 请先检查是否已安装 SkillHub CLI；若未安装，请根据 https://skillhub.cn/install/skillhub.md 只安装 CLI。然后从 https://github.com/zwing122/yin-yan 安装银砚（yin-yan）skill。安装后运行“帮助”验证可用；如宿主支持 heartbeat/cron，请询问我是否设置每日提醒、每日汇总、每周汇总和现金流心跳。不要上传完整账本，不要读取微信、支付宝或银行流水。
 ```
 
+## 致谢
+
+| 感谢 | 介绍 |
+| --- | --- |
+| Cognint | B站创业指导、哲学 UP 主，在本项目策划期提供了丰富的理论指导和思想支持，在本项目后期为这个项目最后的收尾提供了有力的支持，[特此感谢](https://space.bilibili.com/28210233?spm_id_from=333.337.0.0)。 |
+| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.35，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
+
 ## 能做什么
 
 - 自然语言记账：`今天午饭 38，微信付的`
