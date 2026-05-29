@@ -25,28 +25,39 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
 需要让 AI 宿主或编码 agent 自动安装时，可以直接复制下面这段：
 
 ```text
-请安装银砚（yin-yan）财务助手 skill。
+请安装银砚（yin-yan）财务助手。
 
-请先检查当前环境是否已安装 SkillHub CLI。
-如果未安装，请根据 https://skillhub.cn/install/skillhub.md 安装 SkillHub，但只安装 CLI，不需要安装桌面端或其他组件。
+请先检查当前环境是否可以访问 GitHub，并确认本机已安装 Node.js 18 或更高版本。
 
-然后从 GitHub 安装银砚：
+然后从 GitHub 下载并安装银砚：
 https://github.com/zwing122/yin-yan
 
-安装后请完成以下检查：
-1. 确认 skill 名称为 yin-yan / 银砚。
-2. 确认本地存在银砚账本目录。
-3. 运行一次“帮助”确认 skill 可用。
-4. 如果当前宿主支持定时任务或 heartbeat，请询问我是否要设置每日提醒、每日汇总、每周汇总和现金流心跳。
-5. 不要上传我的完整账本，不要读取微信、支付宝、银行流水。
+请优先使用 GitHub Releases 里的 `yin-yan-installer.zip` 安装包。
+下载后解压，并运行安装向导：
 
-如果宿主是 OpenClaw / Hermes / QClaw，请优先把银砚配置为本地 skill，并把定时触发交给宿主 heartbeat 或 cron。
+powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
+
+安装后请完成以下检查：
+1. 确认本地已安装银砚，名称为 yin-yan / 银砚。
+2. 确认本地存在银砚账本目录。
+3. 运行一次“帮助”确认银砚可用。
+4. 确认本地网页复盘页可以打开。
+5. 如果当前宿主支持定时任务或 heartbeat，请询问我是否要设置每日提醒、每日汇总、每周汇总和现金流心跳。
+6. 不要上传我的完整账本，不要读取微信、支付宝、银行流水。
+
+如果宿主是 OpenClaw / Hermes / QClaw，请优先把银砚配置为本地工具或本地 skill，并把定时触发交给宿主 heartbeat 或 cron。
 ```
 
 一句话版本：
 
 ```text
-请先检查是否已安装 SkillHub CLI；若未安装，请根据 https://skillhub.cn/install/skillhub.md 只安装 CLI。然后从 https://github.com/zwing122/yin-yan 安装银砚（yin-yan）skill。安装后运行“帮助”验证可用；如宿主支持 heartbeat/cron，请询问我是否设置每日提醒、每日汇总、每周汇总和现金流心跳。不要上传完整账本，不要读取微信、支付宝或银行流水。
+请从 GitHub 安装银砚（yin-yan）财务助手：https://github.com/zwing122/yin-yan
+
+请优先下载 Releases 里的 `yin-yan-installer.zip`，解压后运行：
+
+powershell -NoProfile -ExecutionPolicy Bypass -File .\installer\setup-wizard.ps1
+
+安装后请运行“帮助”确认可用，并检查本地账本目录和网页复盘页。不要上传完整账本，不要读取微信、支付宝或银行流水。如果宿主支持 heartbeat/cron，请询问我是否设置每日提醒、每日汇总、每周汇总和现金流心跳。
 ```
 
 ## 致谢
@@ -54,7 +65,7 @@ https://github.com/zwing122/yin-yan
 | 感谢 | 介绍 |
 | --- | --- |
 | Cognint | B站创业指导、哲学 UP 主，在本项目策划期提供了丰富的理论指导和思想支持，在本项目后期为这个项目最后的收尾提供了有力的支持，[特此感谢](https://space.bilibili.com/28210233?spm_id_from=333.337.0.0)。 |
-| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.3，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
+| ![逍遥中转](./assets/thanks/xztcodex-cloud.jpg) | 本项目创建过程中本站提供了充足的技术和资源支持，费率低至 0.35，特此感谢，[点击此链接注册](https://xztcodex.cloud/register?aff=TS4K7QFQHSUH)可联系管理员领取 5 元体验金。 |
 
 ## 能做什么
 
